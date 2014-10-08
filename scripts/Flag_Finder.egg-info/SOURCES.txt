@@ -1,0 +1,9 @@
+setup.py
+Flag_Finder.egg-info/PKG-INFO
+Flag_Finder.egg-info/SOURCES.txt
+Flag_Finder.egg-info/dependency_links.txt
+Flag_Finder.egg-info/entry_points.txt
+Flag_Finder.egg-info/namespace_packages.txt
+Flag_Finder.egg-info/not-zip-safe
+Flag_Finder.egg-info/requires.txt
+Flag_Finder.egg-info/top_level.txt
