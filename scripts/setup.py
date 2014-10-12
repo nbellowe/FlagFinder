@@ -22,8 +22,8 @@ setup(
     author='Nathan Bellowe',
     author_email='nbellowe@gmail.com',
 
-    url='https://github.com/',
-    download_url='https://github.com/',
+    url='https://github.com/nbellowe/FlagFinder',
+
 
     classifiers=['Development Status :: 3 - Alpha',
                  'License :: OSI Approved :: Apache Software License',
@@ -48,19 +48,10 @@ setup(
     include_package_data=True,
 
     entry_points={
-        'console_scripts': [
-            'cliffdemo = cliffdemo.main:main'
-        ],
         'cliff.demo': [
             'simple = cliffdemo.simple:Simple',
-            'two_part = cliffdemo.simple:Simple',
-            'error = cliffdemo.simple:Error',
-            'list files = cliffdemo.list:Files',
-            'files = cliffdemo.list:Files',
-            'file = cliffdemo.show:File',
-            'show file = cliffdemo.show:File',
-            'unicode = cliffdemo.encoding:Encoding',
-        ],
+
+       ],
     },
 
     zip_safe=False,

@@ -5,15 +5,15 @@ help:
 	@echo "clean   - remove build artifacts"
 
 release: docs
-	rm -rf dist build
+	rm -rf ../dist ../build
 	python setup.py sdist upload
 
 sdist: docs
-	python setup.py sdist
+	python ./setup.py sdist
 	ls -l dist
 
 clean:
-	rm -rf dist build *.egg-info
+	rm -rf ../dist ../build *.egg-info
 	(cd ../docs && make clean)
 
 .PHONY: docs
