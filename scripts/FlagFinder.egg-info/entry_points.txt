@@ -1,0 +1,7 @@
+[console_scripts]
+ff = ff.main:main
+
+[ff]
+Example = ff.simple:Example
+Error = ff.simple:Error
+
