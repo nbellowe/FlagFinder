@@ -4,20 +4,20 @@ help:
 	@echo "clean   - remove build artifacts"
 
 release: docs
-	cd scripts && sudo rm -rf dist build
-	cd scripts && sudo python setup.py sdist upload
+	cd scripts && rm -rf dist build
+	cd scripts && python setup.py sdist upload
 
 sdist: docs
-	cd scripts && sudo python setup.py sdist
+	cd scripts && python setup.py sdist
 	ls -l dist
 
 install: 
-	cd scripts && sudo python setup.py install
+	cd scripts && python setup.py install
 
 clean:
-	cd scripts && sudo rm -rf dist build *.egg-info
-	(cd docs && sudo make clean)
+	cd scripts && rm -rf dist build *.egg-info
+	(cd docs && make clean)
 
 .PHONY: docs
 docs:
-	(cd docs && sudo make clean html)
+	(cd docs && make clean html)
