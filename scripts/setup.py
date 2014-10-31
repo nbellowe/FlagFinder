@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 PROJECT = 'FlagFinder'
-VERSION = '0.01'
+VERSION = '0.02'
 
 from setuptools import setup, find_packages
 
@@ -51,7 +51,9 @@ setup(
         ],
         'ff': [
             'Example = ff.simple:Example',
-	    'Error = ff.simple:Error'
+	    'Error = ff.simple:Error',
+	    'status = ff.status:main',
+	    'parse = ff.parse:main'
         ],
     },
 
