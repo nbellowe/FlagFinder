@@ -17,6 +17,11 @@ install:
 clean:
 	cd scripts && rm -rf dist build *.egg-info
 	(cd docs && make clean)
+tests:
+	cram -v ./tests/cram
+
+tox:
+	tox ./tests/tox
 
 .PHONY: docs
 docs:
