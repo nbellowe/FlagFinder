@@ -21,13 +21,13 @@ def check_empty(comment_line):
 	return comment_line.strip() in ['', '*']
 
 def check_end_block_comment(comment_line):
-	not_end_block = (comment_line.find("'''") == -1 and
-			comment_line.find('"""') != -1 and
-			comment_line.find('*/') != -1 and
-			comment_line.find('-->') != -1 and
-			comment_line.find('}}') != -1 and
-			comment_line.find('-#}') != -1)
-	return not not_endblock #dumb way to write it before
+	end_block = not((comment_line.find("'''") == -1 and
+			comment_line.find('"""') == -1 and
+			comment_line.find('*/') == -1 and
+			comment_line.find('-->') == -1 and
+			comment_line.find('}}') == -1 and
+			comment_line.find('-#}') == -1))
+	return end_block #dumb way to write it before
 
 def check_trailing_comment(comment_line): 
 	m = re.search('\S+\s*#\s*TODO.+$', comment_line)
