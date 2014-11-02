@@ -4,7 +4,7 @@ import subprocess, sys, comment_linecache, re
 
 from collections import namedtuple
 #Alex, challenge for you in particular. For your first project, make any of these be able to be passed either a comment_line array, (multicomment_line comments), or a single comment_line. Also, you'll be sad to know, I already commented this and deleted them! Figure a couple out, and text me if you need help.
-
+# note none of this will likely be used, as in the end we will likely have performance issues.
 TODO_FLAGS = 'TODO' #note, parse yaml, make someone else do the rest of this shit, because to much design work. Make array-capable
 
 Flag_Line = namedtuple('Flag_Line', ['file', 'comment_line_number', 'comment_line']) #https://docs.python.org/2/library/collections.html
