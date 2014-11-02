@@ -1,5 +1,5 @@
 # stolen from https://github.com/dreamhost/cliff/blob/master/cliff/interactive.py only while developing, will use published version after..
-
+# this isn't actually used currently.
 """Application base class.
 """
 
