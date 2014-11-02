@@ -1,2 +1,2 @@
 if __name__ == '__main__':
-    return 1
+    return version > 0
