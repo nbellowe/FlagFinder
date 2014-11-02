@@ -16,15 +16,17 @@ Software that will allow programmers to organize their code within their code, w
 		Use git .ignore
 	
 	In each file:
-		Parse each file into lines
-		Label each line with a flag --> 1 char or int per line. 
-			Comment
-			Flag detected
-			Starts new method
-			Ends method
-			New flag
+		Parse each file into lines 
+		#Label each line with a flag --> 1 char or int per line. (Haven't implemented, maybe `Jason` would like to?
+			in process
+		#Return a mashup of that info. `Jason`
+	Write specs
+	Write random general crap to make us look good (this project is >2 hours from completion if someone wanted to, but could extend into 20-1000 hrs of work, you know?)
+		
+
 	args:
-		-h help
+	Someone should implement these, that isn't named Nathan.
+		-h help 
 		-p parser
 		-s --settings 
 		-l --list 
