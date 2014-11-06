@@ -22,7 +22,7 @@ def check_empty(comment_line):
 	return comment_line.strip() in ['', '*']
 
 # exception handling function
-# avoids finding false positive comment ending syntax in program strings such as ( */ that's part of a string )
+# avoids finding false positive comment ending syntax in program strings such as  */ that's part of a string 
 def check_end_block_comment(comment_line):
 	end_block = not((comment_line.find("'''") == -1 and
 			comment_line.find('"""') == -1 and
@@ -51,8 +51,7 @@ def expand(match):
 		start = match.comment_line_number + 1 #what about the next one?
 		comment_line = comment_linecache.getcomment_line(match.file, start)
 		while (not check_empty(comment_line) and not check_todo(comment_line) and not check_end_block_comment(comment_line)):
-			all_comment_lines.append(comment_linecache.getcomment_line(match.file, start)) #lets append that bitch.
-			start += 1
+			all_comment_lines.append(comment_linecache.getcomment_line(match.file, start)) #lets append that bitch. fuck yeah lets do it
 			comment_line = comment_linecache.getcomment_line(match.file, start)
 
 	return all_comment_lines
