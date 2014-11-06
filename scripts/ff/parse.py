@@ -11,7 +11,7 @@ Flag_Line = namedtuple('Flag_Line', ['file', 'comment_line_number', 'comment_lin
 
 def check_comment_line(comment_line):
 	comment_line = comment_line.strip()
-	return comment_line.startswith('#') or comment_line.startswith('//') #remember must parse
+	return comment_line.startswith('#') or comment_line.startswith('//') or comment_line.startswith('/*') #remember must parse, right now things are very generic and not smart
 
 def check_todo(comment_line):
 	return comment_line.find('TODO') != -1
@@ -33,7 +33,7 @@ def check_trailing_comment(comment_line):
 	return m is not None
 
 def expand(match):
-	all_comment_lines = [match.comment_line] #make sense?
+	all_comment_lines = [match.comment_line] #make sense? heeeel yeah.
 	if check_trailing_comment(match.comment_line): #doesn't do trailing comments. Big error.
 		pass
 	elif check_comment_line(match.comment_line): #if this is a comment, check if the next line is.
