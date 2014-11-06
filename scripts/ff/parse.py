@@ -3,7 +3,9 @@
 import subprocess, sys, comment_linecache, re
 
 from collections import namedtuple
-#Alex, challenge for you in particular. For your first project, make any of these be able to be passed either a comment_line array, (multicomment_line comments), or a single comment_line. Also, you'll be sad to know, I already commented this and deleted them! Figure a couple out, and text me if you need help.
+#Alex, challenge for you in particular. For your first project, make any of these be able to be passed either a comment_line array,
+#(multicomment_line comments), or a single comment_line. Also, you'll be sad to know, I already commented this and deleted them! 
+#Figure a couple out, and text me if you need help.
 # note none of this will likely be used, as in the end we will likely have performance issues.
 TODO_FLAGS = 'TODO' #note, parse yaml, make someone else do the rest of this shit, because to much design work. Make array-capable
 
@@ -14,11 +16,13 @@ def check_comment_line(comment_line):
 	return comment_line.startswith('#') or comment_line.startswith('//') #remember must parse
 
 def check_todo(comment_line):
-	return comment_line.find('TODO') != -1
+	return comment_line.find('TODO') != -1 #TODO here in this case will be a user supplied variable at some point
 
 def check_empty(comment_line):
 	return comment_line.strip() in ['', '*']
 
+# exception handling function
+# avoids finding false positive comment ending syntax in program strings such as ( */ that's part of a string )
 def check_end_block_comment(comment_line):
 	end_block = not((comment_line.find("'''") == -1 and
 			comment_line.find('"""') == -1 and
