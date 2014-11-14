@@ -13,7 +13,7 @@ Flag_Line = namedtuple('Flag_Line', ['file', 'comment_line_number', 'comment_lin
 
 def check_comment_line(comment_line):
 	comment_line = comment_line.strip()
-	return comment_line.startswith('#') or comment_line.startswith('//') or comment_line.startswith('/*') #remember must parse, right now things are very generic and not smart
+	return comment_line.startswith('#') or comment_line.startswith('//') or comment_line.startswith('/*') or comment_line.startswith('<!--') #remember must parse, right now things are very generic and not smart
 
 def check_todo(comment_line):
 	return comment_line.find('TODO') != -1 #TODO here in this case will be a user supplied variable at some point
@@ -76,7 +76,8 @@ def get_todo_matches():
 		raise e
 	matches = [l for l in matches.split('\n') if l.strip() != '']
 	matches = [l.split(':', 2) for l in matches]
-	matches = [Flag_Line(l[0], int(l[1]), l[2]) for l in matches] #high performance data type. Feel free to get rid of, just think of it as a special communication message. All this does is takes the list of matches and create a new list of "Flag_Line" type.
+	matches = [Flag_Line(l[0], int(l[1]), l[2]) for l in matches] #high performance data type. Feel free to get rid of, just think of it as a special communication message. 
+	#All this does is takes the list of matches and create a new list of "Flag_Line" type.
 	return matches
 
 
