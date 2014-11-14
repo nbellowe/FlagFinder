@@ -7,16 +7,34 @@ from collections import namedtuple
 #(multicomment_line comments), or a single comment_line. Also, you'll be sad to know, I already commented this and deleted them! 
 #Figure a couple out, and text me if you need help.
 # note none of this will likely be used, as in the end we will likely have performance issues.
-TODO_FLAGS = 'TODO' #note, parse yaml, make someone else do the rest of this shit, because to much design work. Make array-capable
+
+
+"""
+The DEFAULT_FLAGS array will contain default flags that FF will look for if the user does not supply his/her own flags.
+We can add to this list of course, I just came up with a few that I came up with off the top of my head. Feel free to add more
+"""
+DEFAULT_FLAGS = ['TODO','COMPLETED','BROKEN','IN-PROGRESS','NEEDS-APPROVAL'] 
+
+"""
+The USER_SUPPLIED_FLAGS array will be populated by all the flags that the user supplies either on the command line when he/she calls FF
+or from a config file where the user can keep their flags stored for reuse
+"""
+USER_SUPPLIED_FLAGS = ['']
 
 Flag_Line = namedtuple('Flag_Line', ['file', 'comment_line_number', 'comment_line']) #https://docs.python.org/2/library/collections.html
 
 def check_comment_line(comment_line):
-	comment_line = comment_line.strip()
-	return comment_line.startswith('#') or comment_line.startswith('//') or comment_line.startswith('/*') or comment_line.startswith('<!--') #remember must parse, right now things are very generic and not smart
+	comment_line = comment_line.strip() #strip() will remove any whitespace from the beginning and end of the string. Allows us to check first meaningful char of each line
+	#array that contains all the opening comment syntaxes we need to look for. Will constantly be added to as we expand
+	ListOfCommentStarters = ['#','//','/*','<!--'] #python, java/c++,multiline comments,html
 
-def check_todo(comment_line):
-	return comment_line.find('TODO') != -1 #TODO here in this case will be a user supplied variable at some point
+	# Loop through each of the CommentStarters and check if our comment line starts with anyone of them. More efficient way of doing it then what we had before
+	# especially from standpoint of scalability when we start adding support for many different kinds of languages and have several different syntaxes for comments
+	for CommentStarter in ListOfCommentStarters:
+		return comment_line.startswith(CommentStarter)
+
+def check_for_flag(comment_line): # this function will also be rewritten to use array of flags instead of just TODO flag
+	return comment_line.find('TODO') != -1 
 
 def check_empty(comment_line):
 	return comment_line.strip() in ['', '*']
