@@ -1,6 +1,6 @@
 #http://beyondgrep.com/ only searches source code, also better. e.g. ack --perl REGEX_PATTERN only searches prl
 
-import subprocess, sys, comment_linecache, re
+import subprocess, sys, re
 
 from collections import namedtuple
 #Alex, challenge for you in particular. For your first project, make any of these be able to be passed either a comment_line array,
@@ -22,19 +22,42 @@ or from a config file where the user can keep their flags stored for reuse
 USER_SUPPLIED_FLAGS = ['']
 
 Flag_Line = namedtuple('Flag_Line', ['file', 'comment_line_number', 'comment_line']) #https://docs.python.org/2/library/collections.html
-
+# WORKS!! At least with everything that I've tested it with, this individual function does what it should
 def check_comment_line(comment_line):
 	comment_line = comment_line.strip() #strip() will remove any whitespace from the beginning and end of the string. Allows us to check first meaningful char of each line
+
 	#array that contains all the opening comment syntaxes we need to look for. Will constantly be added to as we expand
 	ListOfCommentStarters = ['#','//','/*','<!--'] #python, java/c++,multiline comments,html
 
 	# Loop through each of the CommentStarters and check if our comment line starts with anyone of them. More efficient way of doing it then what we had before
 	# especially from standpoint of scalability when we start adding support for many different kinds of languages and have several different syntaxes for comments
-	for CommentStarter in ListOfCommentStarters:
-		return comment_line.startswith(CommentStarter)
+	if comment_line is not []: # if we've passed in just a single line and not an array of lines
+		for CommentStarter in ListOfCommentStarters:  #for all the opening comment tags that we are looking for... 
+			if comment_line.startswith(CommentStarter) is True: #does our passed in comment_line start with one of the commentStaters?
+				return True 	#if it does, return true. If not, continuing iterating through all of the possible commentStarters
+		return False 	#if we've gone through all of the commentStarters and we still haven't found a match, then the line is not a comment
+	
+	else: # if we've passed in an array of lines
 
-def check_for_flag(comment_line): # this function will also be rewritten to use array of flags instead of just TODO flag
-	return comment_line.find('TODO') != -1 
+	    for CommentStarter in ListOfCommentStarters: # for all the opening comment tags that we are looking for...
+	    	for line in comment_line: # for each line that we have passed in 
+	    		if line.startswith(CommentStarter) is True: #make the check
+	    			return True 		#maybe implement some way of returning which element of the array (which line of code) has the comment and what kind of comment
+
+	        return False
+ # DOESN'T ENTIRELY WORK YET
+def check_for_flag(comment_line): 
+    if check_comment_line(comment_line) is False: #if line isn't a comment then there is no point for looking for flags within it
+        return False 
+    else:
+
+    	if comment_line is not []:
+            for flag in DEFAULT_FLAGS:
+	            return comment_line.find(flag) != -1
+	    else:
+	        for flag in DEFAULT_FLAGS:
+	            for line in comment_line:
+	                return comment_line.find(flag) != -1 
 
 def check_empty(comment_line):
 	return comment_line.strip() in ['', '*']
@@ -99,5 +122,5 @@ def get_todo_matches():
 	return matches
 
 
-if __name__ == '__main__':
-    return 1
+#if __name__ == '__main__':
+ #   return 1
