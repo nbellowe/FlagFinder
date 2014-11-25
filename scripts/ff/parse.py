@@ -26,8 +26,10 @@ Flag_Line = namedtuple('Flag_Line', ['file', 'comment_line_number', 'comment_lin
 def check_comment_line(comment_line):
 	comment_line = comment_line.strip() #strip() will remove any whitespace from the beginning and end of the string. Allows us to check first meaningful char of each line
 
+
 	#array that contains all the opening comment syntaxes we need to look for. Will constantly be added to as we expand
-	ListOfCommentStarters = ['#','//','/*','<!--'] #python, java/c++,multiline comments,html
+	ListOfCommentStarters = ['#',"'''",'"""','//','/*','<!--','%'] # [python-ruby-perl-unixshells single line], [python blockcomments], 
+	# [java-c-c++-c#-javascript-objectiveC],[multiline comments],[html], [MATLAB] 
 
 	# Loop through each of the CommentStarters and check if our comment line starts with anyone of them. More efficient way of doing it then what we had before
 	# especially from standpoint of scalability when we start adding support for many different kinds of languages and have several different syntaxes for comments
