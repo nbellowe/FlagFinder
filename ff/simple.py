@@ -32,16 +32,6 @@ class CompareParse(Command):
     if not path:
         self.log.debug('before release, remove default path argument')
     find_files_in_directory(path='~/FlagFinder/to-commit')
-    
-    
-    
-class Example(Command):
-    "A simple command that prints a message."
-    log = logging.getLogger(__name__)
-
-    def take_action(self, parsed_args):
-        self.log.debug('simple.Example')
-
 
 class Error(Command):
     "Always raises an error"

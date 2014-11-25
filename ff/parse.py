@@ -3,11 +3,6 @@
 import subprocess, sys, re
 
 from collections import namedtuple
-#Alex, challenge for you in particular. For your first project, make any of these be able to be passed either a comment_line array,
-#(multicomment_line comments), or a single comment_line. Also, you'll be sad to know, I already commented this and deleted them! 
-#Figure a couple out, and text me if you need help.
-# note none of this will likely be used, as in the end we will likely have performance issues.
-
 
 """
 The DEFAULT_FLAGS array will contain default flags that FF will look for if the user does not supply his/her own flags.
@@ -23,11 +18,11 @@ USER_SUPPLIED_FLAGS = ['']
 
 Flag_Line = namedtuple('Flag_Line', ['file', 'comment_line_number', 'comment_line']) #https://docs.python.org/2/library/collections.html
 # WORKS!! At least with everything that I've tested it with, this individual function does what it should
-def check_comment_line(comment_line):
+def check_comment_line(comment_line): #please make this return a string or object, not a boolean.
 	comment_line = comment_line.strip() #strip() will remove any whitespace from the beginning and end of the string. Allows us to check first meaningful char of each line
 
 	#array that contains all the opening comment syntaxes we need to look for. Will constantly be added to as we expand
-	ListOfCommentStarters = ['#','//','/*','<!--'] #python, java/c++,multiline comments,html
+	ListOfCommentStarters = ['#','//','/*','<!--'] #python, java/c++,multiline comments,html -- please no hardcoded stuff like this.
 
 	# Loop through each of the CommentStarters and check if our comment line starts with anyone of them. More efficient way of doing it then what we had before
 	# especially from standpoint of scalability when we start adding support for many different kinds of languages and have several different syntaxes for comments
@@ -77,8 +72,8 @@ def check_trailing_comment(comment_line):
 	m = re.search('\S+\s*#\s*TODO.+$', comment_line)
 	return m is not None
 
-def expand(match):
-	all_comment_lines = [match.comment_line] #make sense? heeeel yeah.
+def expand(match): #Be careful not to parse things multiple times thats terribly inefficient. (If parsing it the first time, parse for all possible comment types)
+	all_comment_lines = [match.comment_line] #make sense? heeeel yeah. 
 	if check_trailing_comment(match.comment_line): #doesn't do trailing comments. Big error.
 		pass
 	elif check_comment_line(match.comment_line): #if this is a comment, check if the next line is.
