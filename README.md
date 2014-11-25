@@ -26,10 +26,13 @@ Software that will allow programmers to organize their code within their code, w
 
 	args:
 	Someone should implement these, that isn't named Nathan.
-		-h help 
-		-p parser
-		-s --settings 
-		-l --list 
+    I, Alexander the Great, will start working on implementing these at some point. Also, Do you guys think we should make a man page? 
+    Because I can throw one together the next couple of days if you guys think we need one
+		-h help  
+		-p parser (main meat of program)
+		-s --settings (user can reach/edit config file through here I'm assuming) 
+		-l --list  (list of all tags found?)
+        -d [TAG] --display (Display information about tag. ie: what file, what line number, language of comment, what flag, etc)
 	
 	
 http://cliff.readthedocs.org/en/latest/demoapp.html

@@ -29,7 +29,7 @@ class CompareParse(Command):
             else:
                 self.log.debug("file is: " + curfile)
                 read(curfile)
-    if not path
+    if not path:
         self.log.debug('before release, remove default path argument')
     find_files_in_directory(path='~/FlagFinder/to-commit')
     

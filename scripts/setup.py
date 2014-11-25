@@ -50,10 +50,11 @@ setup(
             'ff = ff.main:main'
         ],
         'ff': [
-            'Example = ff.simple:Example',
 	    'Error = ff.simple:Error',
 	    'status = ff.status:main',
-	    'parse = ff.parse:main'
+	    'parse = ff.parse:main',
+		'simple = ff.simple:Example',
+        'd = ff.dispTag:DispTag'
         ],
     },
 
