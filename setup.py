@@ -54,7 +54,7 @@ setup(
 	'status = ff.status:main',
 	'parse = ff.parse:main',
 	'simple = ff.simple:Example',
-        'd = ff.dispTag:DispTag'
+        'd = ff.display_tag:DispTag'
         ],
     },
 
