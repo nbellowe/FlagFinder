@@ -39,7 +39,7 @@ setup(
     scripts=[],
 
     provides=[],
-    install_requires=['cliff'],
+    install_requires=['cliff','pysqlite'],
 
     namespace_packages=[],
     packages=find_packages(),
