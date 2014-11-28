@@ -13,8 +13,6 @@ def db_exists(dirname, filename):
             return True
     return False
 
-def table_exists(
-
 def db_add_entry(project_rootdir, db_entry):
 
 	#db_entry = Some amorphous blob, to grow and shrink as per the whims of parse.py. Accepted into this function as a namedtuple.
