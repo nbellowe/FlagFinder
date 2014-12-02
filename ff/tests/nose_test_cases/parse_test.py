@@ -121,7 +121,8 @@ class Parse_CheckCommentLine(unittest.TestCase):
             self.is_matlab_comment = parse.check_comment_line(matlab_comment)
             self.assertFalse(self.is_matlab_comment)
 
-
+# This class will be responsible for testing just the check_for_default_flag function in parse.pu
+# The different mini-functions within will check different kinds of flags
 class Parse_CheckDefaultFlag(unittest.TestCase):
 
     #Checks to make sure that even lines with flags are NOT identified as comment flags if they are not a comment
@@ -158,7 +159,7 @@ class Parse_CheckDefaultFlag(unittest.TestCase):
     # we need all those tests. They're repetitive and the ones above I think are sufficient enough
     # to test the function. I will, however, add tests cases to test user supplied flags eventually
 
-
+# This class will be responsible for testing the check_empty function in parse.py
 class Parse_CheckEmpty(unittest.TestCase):
     
     # Tests to see if a given line is correctly identified as being empty
