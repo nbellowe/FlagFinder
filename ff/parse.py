@@ -3,26 +3,39 @@
 import subprocess, sys, re
 
 from collections import namedtuple
+#Alex, challenge for you in particular. For your first project, make any of these be able to be passed either a comment_line array,
+#(multicomment_line comments), or a single comment_line. Also, you'll be sad to know, I already commented this and deleted them! 
+#Figure a couple out, and text me if you need help.
+# note none of this will likely be used, as in the end we will likely have performance issues.
+
 
 """
-The DEFAULT_FLAGS array will contain default flags that FF will look for if the user does not supply his/her own flags.
-We can add to this list of course, I just came up with a few that I came up with off the top of my head. Feel free to add more
-"""
-DEFAULT_FLAGS = ['TODO','COMPLETED','BROKEN','IN-PROGRESS','NEEDS-APPROVAL'] 
+The DEFAULT_FLAGS array will contain default flags that FF will look for if the
+user does not supply his/her own flags.
+We can add to this list of course, I just came up with a few that I came up 
+with off the top of my head. Feel free to add more"""
+
+DEFAULT_FLAGS = ['TODO', 'COMPLETED', 'BROKEN', 'IN-PROGRESS', 'NEEDS-APPROVAL'] 
 
 """
-The USER_SUPPLIED_FLAGS array will be populated by all the flags that the user supplies either on the command line when he/she calls FF
-or from a config file where the user can keep their flags stored for reuse
-"""
+The USER_SUPPLIED_FLAGS array will be populated by all the flags that the user
+supplies either on the command line when he/she calls FF
+or from a config file where the user can keep their flags stored for reuse"""
 USER_SUPPLIED_FLAGS = ['']
 
 Flag_Line = namedtuple('Flag_Line', ['file', 'comment_line_number', 'comment_line']) #https://docs.python.org/2/library/collections.html
-# WORKS!! At least with everything that I've tested it with, this individual function does what it should
-def check_comment_line(comment_line): #please make this return a string or object, not a boolean.
+
+# WORKS!! At least with everything that I've tested it with, this individual 
+# function does what it should
+def check_comment_line(comment_line):
+
+	
 	comment_line = comment_line.strip() #strip() will remove any whitespace from the beginning and end of the string. Allows us to check first meaningful char of each line
 
+
 	#array that contains all the opening comment syntaxes we need to look for. Will constantly be added to as we expand
-	ListOfCommentStarters = ['#','//','/*','<!--'] #python, java/c++,multiline comments,html -- please no hardcoded stuff like this.
+	ListOfCommentStarters = ['#',"'''",'"""','//','/*','<!--','%'] # [python-ruby-perl-unixshells single line], [python blockcomments], 
+	# [java-c-c++-c#-javascript-objectiveC],[multiline comments],[html], [MATLAB] 
 
 	# Loop through each of the CommentStarters and check if our comment line starts with anyone of them. More efficient way of doing it then what we had before
 	# especially from standpoint of scalability when we start adding support for many different kinds of languages and have several different syntaxes for comments
@@ -40,19 +53,37 @@ def check_comment_line(comment_line): #please make this return a string or objec
 	    			return True 		#maybe implement some way of returning which element of the array (which line of code) has the comment and what kind of comment
 
 	        return False
- # DOESN'T ENTIRELY WORK YET
-def check_for_flag(comment_line): 
-    if check_comment_line(comment_line) is False: #if line isn't a comment then there is no point for looking for flags within it
-        return False 
-    else:
 
-    	if comment_line is not []:
-            for flag in DEFAULT_FLAGS:
-	            return comment_line.find(flag) != -1
-	    else:
-	        for flag in DEFAULT_FLAGS:
-	            for line in comment_line:
-	                return comment_line.find(flag) != -1 
+# Method to check if a line of a code is A.) a comment and B.) if it is a comment, whether it contains on of our default flags
+def check_for_default_flag(comment_line): 
+	if check_comment_line(comment_line) is False: #if line isn't a comment then there is no point for looking for flags within it
+		return False 
+	else:
+		if comment_line is not []: # if we haven't passed in an array of lines
+			for flag in DEFAULT_FLAGS: # for each flag in our array of default flags...
+				if comment_line.find(flag) != -1 or comment_line.find(flag.lower()) != -1: # if the find method doesn't return -1 (ie: the comment line DOES contain our flag)
+					return flag # return that flag so that we know which of the flags is contained inside the line after making the check
+			return False    #if we have iterated through all flags and none of them exist in the comment line, then there is no default flag in the comment
+		else:
+			for flag in DEFAULT_FLAGS:
+				for line in comment_line:
+					return comment_line.find(flag) != -1 
+
+ # Same as above method except this one will iterate through a user flag array, supplied from the user on the command line or specified 
+ # by the user in a config file of sorts
+def check_for_user_flag(comment_line): 
+	if check_comment_line(comment_line) is False: #if line isn't a comment then there is no point for looking for flags within it
+		return False 
+	else:
+		if comment_line is not []: # if we haven't passed in an array of lines
+			for flag in USER_SUPPLIED_FLAGS: # for each flag in our array of default flags...
+				if comment_line.find(flag) != -1: # if the find method doesn't return -1 (ie: the comment line DOES contain our flag)
+					return flag # return that flag so that we know which of the flags is contained inside the line after making the check
+			return False   #if we have iterated through all flags and none of them exist in the comment line, then there is no default flag in the comment
+		else:
+			for flag in USER_SUPPLIED_FLAGS:
+				for line in comment_line:
+					return comment_line.find(flag) != -1				
 
 def check_empty(comment_line):
 	return comment_line.strip() in ['', '*']
@@ -72,8 +103,8 @@ def check_trailing_comment(comment_line):
 	m = re.search('\S+\s*#\s*TODO.+$', comment_line)
 	return m is not None
 
-def expand(match): #Be careful not to parse things multiple times thats terribly inefficient. (If parsing it the first time, parse for all possible comment types)
-	all_comment_lines = [match.comment_line] #make sense? heeeel yeah. 
+def expand(match):
+	all_comment_lines = [match.comment_line] #make sense? heeeel yeah.
 	if check_trailing_comment(match.comment_line): #doesn't do trailing comments. Big error.
 		pass
 	elif check_comment_line(match.comment_line): #if this is a comment, check if the next line is.
