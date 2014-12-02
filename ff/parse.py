@@ -21,9 +21,7 @@ USER_SUPPLIED_FLAGS = ['']
 
 Flag_Line = namedtuple('Flag_Line', ['file', 'comment_line_number', 'comment_line']) #https://docs.python.org/2/library/collections.html
 
-# WORKS!! At least with everything that I've tested it with, this individual 
-# function does what it should
-# COMPLETED
+# WORKS!! Checks to see if a line is a comment
 def check_comment_line(comment_line):
 
 	
@@ -83,11 +81,13 @@ def check_for_user_flag(comment_line):
 				for line in comment_line:
 					return comment_line.find(flag) != -1				
 
+#WORKS
 def check_empty(comment_line):
 	return comment_line.strip() in ['']
 
 # exception handling function
 # avoids finding false positive comment ending syntax in program strings such as  */ that's part of a string 
+# will rewrite this soon. I'm thinking that it's purpose is to check if a comment block is ending on a particular line
 def check_end_block_comment(comment_line):
 	end_block = not((comment_line.find("'''") == -1 and
 			comment_line.find('"""') == -1 and
@@ -97,10 +97,11 @@ def check_end_block_comment(comment_line):
 			comment_line.find('-#}') == -1))
 	return end_block #dumb way to write it before
 
+# no idea what the hell this does
 def check_trailing_comment(comment_line): 
 	m = re.search('\S+\s*#\s*TODO.+$', comment_line)
 	return m is not None
-
+# no idea what the hell this does
 def expand(match):
 	all_comment_lines = [match.comment_line] #make sense? heeeel yeah.
 	if check_trailing_comment(match.comment_line): #doesn't do trailing comments. Big error.
@@ -120,7 +121,7 @@ def expand(match):
 			comment_line = comment_linecache.getcomment_line(match.file, start)
 
 	return all_comment_lines
-		
+# no idea what the hell this does		
 def extract_titles(comment_line):
 	contents = re.findall('TODO\((.*?)\)', comment_line)
 
@@ -132,7 +133,7 @@ def extract_titles(comment_line):
 		titles.extend([x.strip() for x in re.split('[,/]', title)])
 
 	return titles #TODO(nbellowe) sucks, do this yourself Nathan.
-
+# no idea what the hell this does
 def get_todo_matches():
 	try:
 		matches = subprocess.check_output(['ack', '--with-filename', "TODO\\(.*\\)"]) #http://beyondgrep.com/
@@ -145,6 +146,32 @@ def get_todo_matches():
 	#All this does is takes the list of matches and create a new list of "Flag_Line" type.
 	return matches
 
+
+#this will be essentially the main part of parse.py
+# This class will call all the check functions above
+# and if the passed in comment_line is a valid comment
+# then it will insert all of the information into the tuple
+# format that will be easily stored in Jasons DB.
+
+def makeCommentLineTuple(comment_line):
+	"""
+	# this is simply a logical flow/description of how I see this function working
+	# 
+	# If comment_line is comment and has flags and it comes from this line number
+	# from this file and is identified as this language and is this many lines long
+	# then the tuple will be the following:
+	# 
+	# FlagLine = FlagLine("file", "FLAG", linenumber, "language", lenght_of_comment )
+	# 
+	# and then this flagline tuple will be passed onto Jasons db.py class to be broken down
+	# and inserted into our sql database
+	# I'm thinking that the extract titles and expand functions that are above should
+	# be removed and instead replaced with something similar in displaytag.py
+	# 
+	# In displaytag.py we can read in all the attributes of a tag from the DB 
+	# and simply display them in the setup that I already have working with 
+	# the mock static data
+	"""
 
 #if __name__ == '__main__':
  #   return 1
