@@ -32,17 +32,16 @@ class Tag:
 
 
 class DispTag(ShowOne):
-
+    "Show details about a tag"
+   
     log = logging.getLogger(__name__)
-    print("")
-    print("************************")
-    print("This is your comment: ")
-    print("************************")
     
     def take_action(self, parsed_args):
-        
+    
+     
         sampleTag = Tag()
-        print(sampleTag.tagContent)    
+        self.app.stdout.write(sampleTag.tagContent)
+        self.app.stdout.write("\n")    
         columns = ('Beginning Of Tag',
                    'Line-Number',
                    'File-Name',
