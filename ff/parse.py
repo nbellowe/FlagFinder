@@ -3,17 +3,13 @@
 import subprocess, sys, re
 
 from collections import namedtuple
-#Alex, challenge for you in particular. For your first project, make any of these be able to be passed either a comment_line array,
-#(multicomment_line comments), or a single comment_line. Also, you'll be sad to know, I already commented this and deleted them! 
-#Figure a couple out, and text me if you need help.
-# note none of this will likely be used, as in the end we will likely have performance issues.
-
 
 """
 The DEFAULT_FLAGS array will contain default flags that FF will look for if the
 user does not supply his/her own flags.
 We can add to this list of course, I just came up with a few that I came up 
-with off the top of my head. Feel free to add more"""
+with off the top of my head. Feel free to add more
+"""
 
 DEFAULT_FLAGS = ['TODO', 'COMPLETED', 'BROKEN', 'IN-PROGRESS', 'NEEDS-APPROVAL'] 
 
@@ -27,6 +23,7 @@ Flag_Line = namedtuple('Flag_Line', ['file', 'comment_line_number', 'comment_lin
 
 # WORKS!! At least with everything that I've tested it with, this individual 
 # function does what it should
+# COMPLETED
 def check_comment_line(comment_line):
 
 	
@@ -55,6 +52,7 @@ def check_comment_line(comment_line):
 	        return False
 
 # Method to check if a line of a code is A.) a comment and B.) if it is a comment, whether it contains on of our default flags
+# WORKS! 
 def check_for_default_flag(comment_line): 
 	if check_comment_line(comment_line) is False: #if line isn't a comment then there is no point for looking for flags within it
 		return False 
@@ -86,7 +84,7 @@ def check_for_user_flag(comment_line):
 					return comment_line.find(flag) != -1				
 
 def check_empty(comment_line):
-	return comment_line.strip() in ['', '*']
+	return comment_line.strip() in ['']
 
 # exception handling function
 # avoids finding false positive comment ending syntax in program strings such as  */ that's part of a string 
