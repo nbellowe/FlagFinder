@@ -139,20 +139,43 @@ class Parse_CheckDefaultFlag(unittest.TestCase):
             self.todo_flag = parse.check_for_default_flag(comment_with_todo)
             self.assertEqual(self.todo_flag,"TODO")
 
-
+    # checks to see if a COMPLETED flag is correctly identified
     def test_for_COMPLETED_flag(self):
         comments_with_COMPLETED_flags = ["# This is a comment with a COMPLETED flag", "// This is another comment with COMPLETED", "'''Another COMPLETED flag"]
 
         for comment_with_completed in comments_with_COMPLETED_flags:
             self.completed_flag = parse.check_for_default_flag(comment_with_completed)
             self.assertEqual(self.completed_flag,"COMPLETED")
-
+    # checks to see if a BROKEN flag is correctly identified
     def test_for_BROKEN_flag(self):
         comments_with_BROKEN_flags = ["# This is a comment with a BROKEN flag", "// This is another comment with BROKEN", "'''Another BROKEN flag"]
 
         for comment_with_broken in comments_with_BROKEN_flags:
             self.broken_flag = parse.check_for_default_flag(comment_with_broken)
             self.assertEqual(self.broken_flag,"BROKEN")
+
+    #I got lazy and didn't write the taste cases for the rest of the default flags because I don't think 
+    # we need all those tests. They're repetitive and the ones above I think are sufficient enough
+    # to test the function. I will, however, add tests cases to test user supplied flags eventually
+
+
+class Parse_CheckEmpty(unittest.TestCase):
+    
+    # Tests to see if a given line is correctly identified as being empty
+    def testEmpty(self):
+
+        empty_line = "    "
+
+        self.isLineEmpty = parse.check_empty(empty_line)
+        self.assertTrue(self.isLineEmpty)
+    # Tests to see if a given line is correctly identifed as being NOT empty
+    def testNotEmpty(self):
+
+        second_line = "     sdfsdf "
+        self.isSecondLineEmpty = parse.check_empty(second_line)
+        self.assertFalse(self.isSecondLineEmpty)
+
+        
 
 if __name__ == '__main__':
     unittest.main()
