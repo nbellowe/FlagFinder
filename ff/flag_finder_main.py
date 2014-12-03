@@ -85,4 +85,4 @@ class Main(Command):
 	      
 	except IOError:
 		print "Input/Output Error: file", parsed_args.filename,"not found"
-		print "Usage of parse command: ff parse [FILENAME]"
+        print "Usage of parse command: ff parse [FILENAME]"
