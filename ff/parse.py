@@ -11,7 +11,7 @@ We can add to this list of course, I just came up with a few that I came up
 with off the top of my head. Feel free to add more
 """
 
-DEFAULT_FLAGS = ['TODO', 'COMPLETED', 'BROKEN', 'IN-PROGRESS', 'NEEDS-APPROVAL'] 
+DEFAULT_FLAGS = ['TODO', 'COMPLETED', 'BROKEN', 'IN-PROGRESS', 'NEEDS-APPROVAL','WORKS'] 
 
 """
 The USER_SUPPLIED_FLAGS array will be populated by all the flags that the user
@@ -19,7 +19,7 @@ supplies either on the command line when he/she calls FF
 or from a config file where the user can keep their flags stored for reuse"""
 USER_SUPPLIED_FLAGS = ['']
 
-Flag_Line = namedtuple('Flag_Line', ['file', 'comment_line_number', 'comment_line']) #https://docs.python.org/2/library/collections.html
+Flag_Line = namedtuple('Flag_Line', ['file', 'comment_line_number', 'comment_line','flag']) #https://docs.python.org/2/library/collections.html
 
 # WORKS!! Checks to see if a line is a comment
 def check_comment_line(comment_line):
@@ -57,7 +57,7 @@ def check_for_default_flag(comment_line):
 	else:
 		if comment_line is not []: # if we haven't passed in an array of lines
 			for flag in DEFAULT_FLAGS: # for each flag in our array of default flags...
-				if comment_line.find(flag) != -1 or comment_line.find(flag.lower()) != -1: # if the find method doesn't return -1 (ie: the comment line DOES contain our flag)
+				if comment_line.find(flag) != -1: #or comment_line.find(flag.lower()) != -1: # if the find method doesn't return -1 (ie: the comment line DOES contain our flag)
 					return flag # return that flag so that we know which of the flags is contained inside the line after making the check
 			return False    #if we have iterated through all flags and none of them exist in the comment line, then there is no default flag in the comment
 		else:
@@ -153,7 +153,15 @@ def get_todo_matches():
 # then it will insert all of the information into the tuple
 # format that will be easily stored in Jasons DB.
 
-def makeCommentLineTuple(comment_line):
+def makeCommentLineTuple(line_of_code,linenumber,filename):
+
+	# Begininning implementation of how the tuple will be formed
+	# This WORKS! Been trying it out with the flag_finder_main.py file
+	# and the tuple is succesfully created with all the proper attributes
+	if check_for_default_flag(line_of_code):
+		thisTuple = Flag_Line(file,linenumber,line_of_code,check_for_default_flag(line_of_code))
+		return thisTuple
+
 	"""
 	# this is simply a logical flow/description of how I see this function working
 	# 
