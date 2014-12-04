@@ -2,13 +2,6 @@ import os
 import sqlite3
 from collections import namedtuple
 
-#DB_DIRNAME = '.ff'
-#FILETABLE_ENTRY_ELEMENTS = 2
-#FILETABLE_ENTRY_CATEGORIES ='(
-#							  abs_filepath TEXT UNIQUE, 
-#							  file_id INTEGER PRIMARY KEY
-#							 )'
-
 FLAGTABLE_ENTRY_ELEMENTS = 5
 FLAGTABLE_ENTRY_CATEGORIES ='(tag_id INTEGER,file_name TEXT,line_number INTEGER,comment_content TEXT,flag TEXT)'
 
@@ -24,7 +17,6 @@ class ff_db:
 
 		self.db_cursor = self.db_conn.cursor()
 		#might want to drop all tables here so when parse.py is run the db is regenerated each time. Depends how far I get with this :P
-		#self.db_cursor.execute('CREATE TABLE IF NOT EXISTS files_table ' + FILETABLE_ENTRY_CATEGORIES)
 		self.db_cursor.execute('CREATE TABLE IF NOT EXISTS flags_table ' + FLAGTABLE_ENTRY_CATEGORIES)
 		self.db_conn.commit()
 
@@ -33,7 +25,6 @@ class ff_db:
 		self.db_conn.close()
 
 	def add_entries(self, db_entry_list):
-		#self.db_cursor.execute('INSERT OR IGNORE INTO files_table VALUES ?', abs_filepath)
 		tag_id = 1
 		for db_entry in db_entry_list:
 			tag_tuple = namedtuple('tag_tuple', 'tag')
@@ -54,7 +45,7 @@ class ff_db:
 		if query_type == 'file':	
 			db_search_query = (db_search_query,)
 			self.db_cursor.execute('SELECT * FROM flags_table WHERE file_name LIKE ?', db_search_query)
-			for row in self.db_cursor: #try the fetchall thing here
+			for row in self.db_cursor:
 				query_results.append(row)
 			print query_results
 
