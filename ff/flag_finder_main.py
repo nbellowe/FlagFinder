@@ -12,6 +12,8 @@ import parse
 from collections import namedtuple
 import re
 from cliff.command import Command
+import os
+import database
 
 class Main(Command):
 
@@ -55,12 +57,17 @@ class Main(Command):
 			    # for each line of the file...
 			    # we add in the num counter to keep track of what line number each
 			    # comment is on
+			    # 
+			    '''
+			   
+			   
+			    '''
 			    for num, line in enumerate(usersFile, 1):
 			    	# if the line is a comment and has a flag...
 			    	if parse.check_for_default_flag(line):
 
 			    		# calls the function in parse which forms the tuple
-			        	comment_line = (parse.makeCommentLineTuple(line.rstrip('\n'),num,usersFile.name))
+						comment_line = (parse.makeCommentLineTuple(line.rstrip('\n'),num,usersFile.name))
 			 
 			        	# in the final implementation, the following print lines
 			        	# probably won't exist. Instead, the comment_line tuple that 
@@ -73,11 +80,12 @@ class Main(Command):
 			        	# I added the print statements for now so that we can call parse from
 			        	# CL and see it work. it works, try it:) 
 			        	
-			        	print "Your comment is: ",comment_line.comment_line
-			        	print "This comment is on line number: ",comment_line.comment_line_number
-			        	print "The flag is: ", comment_line.flag
-	
-		        		print "\n"
+						# future implementation of feeding tuples into DB
+			        
+						print "Your comment is: ",comment_line.comment_line
+						print "This comment is on line number: ",comment_line.comment_line_number
+						print "The flag is: ", comment_line.flag
+						print "\n"
 	# The open file function can encounter an IOError if the user supplies a 
 	# file that doesn't exist, or if they supply nothing after the parse command
 	# This will catch that, telling the user the the file they tried parsing doesn't
@@ -86,3 +94,34 @@ class Main(Command):
 	except IOError:
 		print "Input/Output Error: file", parsed_args.filename,"not found"
         print "Usage of parse command: ff parse [FILENAME]"
+
+
+class Setup(Command):
+
+
+	
+
+	def take_action(self, parsed_args):
+		userProjectDirectoryName = os.path.split(os.getcwd())[1]
+		userProjectDirectoryPath = os.environ['PWD']
+		userDBName = userProjectDirectoryName+"_ff_db"
+		print ""
+		print "*****************************************"
+		print "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+		print "										 "				
+		print "	Welcome to Flag Finder!!		 "
+		print "										 "
+		print "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+		print "*****************************************"
+		print ""
+		print "______________________________________________________________________________________"
+		print "* Your configuration file is called .ffconfig"
+		print "* Edit .ffcongig for your flags, database name, parsing options"
+		print "* Your database file is called", userDBName
+		print "* Your current project directory path is", userProjectDirectoryPath
+		print"_______________________________________________________________________________________"
+
+		userConfig = open(".ffconfig", 'a')
+		
+
+		db_File = database.ff_db(userProjectDirectoryPath,userDBName)
