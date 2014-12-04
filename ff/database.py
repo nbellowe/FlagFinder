@@ -3,7 +3,9 @@ import sqlite3
 from collections import namedtuple
 
 DB_DIRNAME = '.ff'
+# number of elements in each tuple
 DB_ENTRY_ITEMS = 3
+#the actual attributes of the tuple
 DB_ENTRY_CATEGORIES = '(file text, line_number integer, comment_line text)'
 
 class ff_db:
