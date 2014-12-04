@@ -19,7 +19,7 @@ supplies either on the command line when he/she calls FF
 or from a config file where the user can keep their flags stored for reuse"""
 USER_SUPPLIED_FLAGS = ['']
 
-Flag_Line = namedtuple('Flag_Line', ['file', 'comment_line_number', 'comment_line','flag']) #https://docs.python.org/2/library/collections.html
+Flag_Line = namedtuple('Flag_Line', ['fileName', 'comment_line_number', 'comment_line','flag']) #https://docs.python.org/2/library/collections.html
 
 # WORKS!! Checks to see if a line is a comment
 def check_comment_line(comment_line):
