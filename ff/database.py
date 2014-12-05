@@ -6,6 +6,10 @@ FLAGTABLE_ENTRY_ELEMENTS = 5
 FLAGTABLE_ENTRY_CATEGORIES ='(tag_id INTEGER,file_name TEXT,line_number INTEGER,comment_content TEXT,flag TEXT)'
 
 class ff_db:
+	"""FlagFinder SQLite3 Database Class.
+	:param project_rootdir: absolute filepath to current project's highest-level source directory
+	:paramtype project_rootdir: str
+	"""
 	
 	def __init__(self, project_rootdir):
 
@@ -21,10 +25,17 @@ class ff_db:
 		self.db_conn.commit()
 
 	def close(self):
+	"""Close connection to database.
+	"""
 		self.db_cursor.close()
 		self.db_conn.close()
 
 	def add_entries(self, db_entry_list):
+	"""Add series of entries to database, not replicating any entries that already exist.
+	:param db_entry_list: list of namedtuples, each representing database entries whose elements correspond to FLAGTABLE_ENTRY_CATEGORIES in code.
+	:paramtype db_entry_list: list
+	"""
+
 		tag_id = 1
 		for db_entry in db_entry_list:
 			tag_tuple = namedtuple('tag_tuple', 'tag')
@@ -41,6 +52,13 @@ class ff_db:
 			self.db_conn.commit()
 	
 	def retrieve(self, query_type, db_search_query):
+	"""Retrieve entries from database related to query_type following db_search_query. Entries returned as list of tuples.
+	:param query_type: type of search query. Choices: 'file'
+	:paramtype query_type: str
+	:param db_search_query: search query corresponding to query_type: (e.g. query_type='file', db_search_query='hello.py'.)
+	:paramtype db_search_query: str
+	"""
+
 		query_results = []
 		if query_type == 'file':	
 			db_search_query = (db_search_query,)
