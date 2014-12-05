@@ -52,6 +52,8 @@ setup(
         'ff': [
         'd = ff.display_tag:DispTag',
         'parse = ff.flag_finder_main:Main',
+        'setup = ff.flag_finder_main:Setup',
+        'list = ff.listTags:Files',
         ],
     },
 

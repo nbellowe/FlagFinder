@@ -2,8 +2,11 @@ import os
 import sqlite3
 from collections import namedtuple
 
+
+
 FLAGTABLE_ENTRY_ELEMENTS = 5
 FLAGTABLE_ENTRY_CATEGORIES ='(tag_id INTEGER,file_name TEXT,line_number INTEGER,comment_content TEXT,flag TEXT)'
+
 
 class ff_db:
 	
