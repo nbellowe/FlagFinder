@@ -38,7 +38,7 @@ class ff_db:
 
 			self.db_cursor.execute('UPDATE flags_table SET flag=?, comment_content=?, line_number=? WHERE file_name=? AND tag_id=?', reversed_entry)
 			tag_id += 1
-			self.db_conn.commit
+			self.db_conn.commit()
 	
 	def retrieve(self, query_type, db_search_query):
 		query_results = []
@@ -47,7 +47,7 @@ class ff_db:
 			self.db_cursor.execute('SELECT * FROM flags_table WHERE file_name LIKE ?', db_search_query)
 			for row in self.db_cursor:
 				query_results.append(row)
-			print query_results
+			return query_results
 
 		
 
