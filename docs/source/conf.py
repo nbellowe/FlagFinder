@@ -43,7 +43,7 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = u'cliff'
+project = u'FlagFinder'
 copyright = u'2012-%s, Nathan Bellowe' % datetime.datetime.today().year
 
 # The version info for the project you're documenting, acts as replacement for
@@ -51,7 +51,7 @@ copyright = u'2012-%s, Nathan Bellowe' % datetime.datetime.today().year
 # built documents.
 #
 # The short X.Y version.
-version = '0.0'
+version = '0.2'
 
 # The full version, including alpha/beta/rc tags.
 release = version
