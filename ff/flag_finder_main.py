@@ -24,50 +24,31 @@ class Main(Command):
 	# name of the file name which will be the second argument
     def get_parser(self,prog_name):
         parser = super(Main,self).get_parser(prog_name)
-        parser.add_argument('filename',nargs='?', default='null')
+        parser.add_argument('filename',nargs='?', default='')
         return parser
 
 
     # Again more of cliffs conventions, take_action contains all the stuff
     # that will actually be going on
     def take_action(self, parsed_args):   
-
-    	# Small helper function to determine the language being used by the file
-    	# It'll good to have this language identified for attribute purposes
-    	# I will add more languages later on
-    	def checkLanguageOfFile(filename):
-	    	if filename[-3:] == '.py':
-	    		return "Python"
-	    	elif filename[-2:] == '.c': 
-	    		return "C"
-	    	elif filename[-4:] == '.cpp': 
-	    		return "C++"
-
 	   	# try opening file and reading all the lines and parsing and etc.
+    	userProjectDirectoryPath = os.environ['PWD']
+    	db_File = database.ff_db(userProjectDirectoryPath)
     	try: 
         	with open(parsed_args.filename) as usersFile:
-        		# this can be outside the loop of reading every line, the file
-        		# will stay the same once it is read in above
-			    print "Your file name is: ", usersFile.name
-			    #the language will also be consistent for a single file so this 
-			    #can also be printed at the top outside of the loop
-			    print "The language is: ", checkLanguageOfFile(usersFile.name)
-			    print "-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-\n"
-
 			    # for each line of the file...
 			    # we add in the num counter to keep track of what line number each
 			    # comment is on
 			    # 
-			    '''
-			   
-			   
-			    '''
+			    comments = []
 			    for num, line in enumerate(usersFile, 1):
 			    	# if the line is a comment and has a flag...
 			    	if parse.check_for_default_flag(line):
 
 			    		# calls the function in parse which forms the tuple
 						comment_line = (parse.makeCommentLineTuple(line.rstrip('\n'),num,usersFile.name))
+						comments.append(comment_line)
+					
 			 
 			        	# in the final implementation, the following print lines
 			        	# probably won't exist. Instead, the comment_line tuple that 
@@ -81,11 +62,10 @@ class Main(Command):
 			        	# CL and see it work. it works, try it:) 
 			        	
 						# future implementation of feeding tuples into DB
-			        
-						print "Your comment is: ",comment_line.comment_line
-						print "This comment is on line number: ",comment_line.comment_line_number
-						print "The flag is: ", comment_line.flag
-						print "\n"
+			    #print (comments)
+			    db_File.add_entries(comments)    
+			    
+						
 	# The open file function can encounter an IOError if the user supplies a 
 	# file that doesn't exist, or if they supply nothing after the parse command
 	# This will catch that, telling the user the the file they tried parsing doesn't
@@ -104,7 +84,7 @@ class Setup(Command):
 	def take_action(self, parsed_args):
 		userProjectDirectoryName = os.path.split(os.getcwd())[1]
 		userProjectDirectoryPath = os.environ['PWD']
-		userDBName = userProjectDirectoryName+"_ff_db"
+		userDBName = userProjectDirectoryName+"-ff.db"
 		print ""
 		print "*****************************************"
 		print "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
@@ -124,4 +104,4 @@ class Setup(Command):
 		userConfig = open(".ffconfig", 'a')
 		
 
-		db_File = database.ff_db(userProjectDirectoryPath,userDBName)
+		db_File = database.ff_db(userProjectDirectoryPath)
