@@ -5,7 +5,7 @@ from collections import namedtuple
 
 
 FLAGTABLE_ENTRY_ELEMENTS = 5
-FLAGTABLE_ENTRY_CATEGORIES ='(tag_id INTEGER,file_name TEXT,line_number INTEGER,comment_content TEXT,flag TEXT, UNIQUE (line_number, comment_content))'
+FLAGTABLE_ENTRY_CATEGORIES ='(tag_id INTEGER,file_name TEXT,line_number INTEGER,comment_content TEXT,flag TEXT)'
 
 
 class ff_db:
@@ -16,10 +16,9 @@ class ff_db:
 		self.abs_filepath = os.path.join(project_rootdir, db_name)
 
 		self.db_conn = sqlite3.connect(self.abs_filepath)
-		self.db_conn.text_factory = str #this is so what I get back from the DB isn't in Unicode stringsbut ASCII text, more easily passable to parse.py.
+		self.db_conn.text_factory = str #this is so what I get back from the DB isn't in Unicode strings but ASCII text, more easily passable to parse.py.
 
 		self.db_cursor = self.db_conn.cursor()
-		#might want to drop all tables here so when parse.py is run the db is regenerated each time. Depends how far I get with this :P
 		self.db_cursor.execute('CREATE TABLE IF NOT EXISTS flags_table ' + FLAGTABLE_ENTRY_CATEGORIES)
 		self.db_conn.commit()
 
@@ -29,15 +28,26 @@ class ff_db:
 		self.db_conn.close()
 
 	def add_entries(self, db_entry_list):
+		
+		def sanatize_input(db_entry, tag_id): #this prepends tag_id's onto entries and sanatizes entry elements that are strings to allow us to insert comments, flags, and filenames that have single and double quotes within them (SQLite whines unless they're properly formatted).
+			tag_tuple = namedtuple('tag_tuple', 'tag')
+			l = ['','','']
+			l[0] = db_entry[0]
+			l[1] = db_entry[2]
+			l[2] = db_entry[3]
+			for entry in l:
+				entry = entry.replace("'", "''").replace("\"", "\"\"")
+			prepend_tag = namedtuple('tagged', tag_tuple._fields + db_entry._fields)
+			tagged_db_entry = prepend_tag(tag_id, l[0], db_entry[1], l[1], l[2])
+			return tagged_db_entry
+
 
 		tag_id = 1
 		drop_file_entries = (db_entry_list[0][0],)
 		self.db_cursor.execute('DELETE FROM flags_table WHERE file_name=?', drop_file_entries)
 		for db_entry in db_entry_list:
-			tag_tuple = namedtuple('tag_tuple', 'tag')
 
-			prepend_tag = namedtuple('tagged', tag_tuple._fields + db_entry._fields)
-			tagged_db_entry = prepend_tag(tag_id, db_entry[0], db_entry[1], db_entry[2], db_entry[3]) #THIS IS AWFULLY BAD PRACTICE BUT KEEPING FOR NOW
+			tagged_db_entry = sanatize_input(db_entry, tag_id)
 
 			self.db_cursor.execute('INSERT INTO flags_table VALUES (?,?,?,?,?)', tagged_db_entry[:FLAGTABLE_ENTRY_ELEMENTS])
 
