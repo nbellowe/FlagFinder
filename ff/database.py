@@ -5,7 +5,7 @@ from collections import namedtuple
 
 
 FLAGTABLE_ENTRY_ELEMENTS = 5
-FLAGTABLE_ENTRY_CATEGORIES ='(tag_id INTEGER,file_name TEXT,line_number INTEGER,comment_content TEXT,flag TEXT)'
+FLAGTABLE_ENTRY_CATEGORIES ='(tag_id INTEGER,file_name TEXT,line_number INTEGER,comment_content TEXT,flag TEXT, UNIQUE (line_number, comment_content))'
 
 
 class ff_db:
@@ -24,26 +24,28 @@ class ff_db:
 		self.db_conn.commit()
 
 	def close(self):
+
 		self.db_cursor.close()
 		self.db_conn.close()
 
 	def add_entries(self, db_entry_list):
+
 		tag_id = 1
+		drop_file_entries = (db_entry_list[0][0],)
+		self.db_cursor.execute('DELETE FROM flags_table WHERE file_name=?', drop_file_entries)
 		for db_entry in db_entry_list:
 			tag_tuple = namedtuple('tag_tuple', 'tag')
 
 			prepend_tag = namedtuple('tagged', tag_tuple._fields + db_entry._fields)
 			tagged_db_entry = prepend_tag(tag_id, db_entry[0], db_entry[1], db_entry[2], db_entry[3]) #THIS IS AWFULLY BAD PRACTICE BUT KEEPING FOR NOW
 
-			self.db_cursor.execute('INSERT INTO flags_table VALUES (?,?,?,?,?)', tagged_db_entry[:FLAGTABLE_ENTRY_ELEMENTS]) #TODO: Make sure you're not adding duplicate entries!
+			self.db_cursor.execute('INSERT INTO flags_table VALUES (?,?,?,?,?)', tagged_db_entry[:FLAGTABLE_ENTRY_ELEMENTS])
 
-			reversed_entry = tuple(reversed(tagged_db_entry)) 
-
-			self.db_cursor.execute('UPDATE flags_table SET flag=?, comment_content=?, line_number=? WHERE file_name=? AND tag_id=?', reversed_entry)
 			tag_id += 1
-			self.db_conn.commit()
+		self.db_conn.commit()
 	
 	def retrieve(self, query_type, db_search_query):
+
 		query_results = []
 		if query_type == 'file':	
 			db_search_query = (db_search_query,)
