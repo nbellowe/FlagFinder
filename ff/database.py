@@ -9,8 +9,13 @@ FLAGTABLE_ENTRY_CATEGORIES ='(tag_id INTEGER,file_name TEXT,line_number INTEGER,
 
 
 class ff_db:
+
 	
 	def __init__(self, project_rootdir):
+		
+		self.FILE = 'file'
+		self.FLAG = 'flag'
+		self.FILE_AND_FLAG = 'file+flag'
 
 		db_name = '.' + os.path.split(project_rootdir)[1] + '-ff.db'
 		self.abs_filepath = os.path.join(project_rootdir, db_name)
@@ -56,15 +61,15 @@ class ff_db:
 	
 	def retrieve(self, query_type, db_search_query):
 
-		if query_type == 'file':	#return flags in file <filename> with db.retrieve('file','<filename>')
+		if query_type == self.FILE:	#return flags in file <filename> with db.retrieve(db.FILE,'<filename>')
 			db_search_query = (db_search_query,)
 			self.db_cursor.execute('SELECT * FROM flags_table WHERE file_name LIKE ?', db_search_query)
 
-		elif query_type == 'flag':	#return flags in all files corresponding to flag type <flag> with db.retrieve('flag','<flag>')
+		elif query_type == self.FLAG:	#return flags in all files corresponding to flag type <flag> with db.retrieve(db.FLAG,'<flag>')
 			db_search_query = (db_search_query,)
 			self.db_cursor.execute('SELECT * FROM flags_table WHERE flag LIKE ?', db_search_query)
 
-		elif query_type == 'file+flag':	#return flags in file <filename> corresponding to flag type <flag> with db.retrieve('file+flag','[<filename>,<flag>]') <---note the list this time.
+		elif query_type == self.FILE_AND_FLAG:	#return flags in file <filename> corresponding to flag type <flag> with db.retrieve(db.FILE_AND_FLAG,['<filename>','<flag>']) <---note the list this time.
 			db_search_query = (db_search_query[0],db_search_query[1])
 			self.db_cursor.execute('SELECT * FROM flags_table WHERE file_name LIKE ? AND flag LIKE ?', db_search_query)
 
