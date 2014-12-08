@@ -60,7 +60,7 @@ class ff_db:
 			db_search_query = (db_search_query,)
 			self.db_cursor.execute('SELECT * FROM flags_table WHERE file_name LIKE ?', db_search_query)
 
-		elif query_type == 'flag':	#return flags in all files corresponding to flag type <flag> with db.retrieve('file','<flag>')
+		elif query_type == 'flag':	#return flags in all files corresponding to flag type <flag> with db.retrieve('flag','<flag>')
 			db_search_query = (db_search_query,)
 			self.db_cursor.execute('SELECT * FROM flags_table WHERE flag LIKE ?', db_search_query)
 
