@@ -56,13 +56,21 @@ class ff_db:
 	
 	def retrieve(self, query_type, db_search_query):
 
-		query_results = []
-		if query_type == 'file':	
+		if query_type == 'file':	#return flags in file <filename> with db.retrieve('file','<filename>')
 			db_search_query = (db_search_query,)
 			self.db_cursor.execute('SELECT * FROM flags_table WHERE file_name LIKE ?', db_search_query)
-			for row in self.db_cursor:
-				query_results.append(row)
-			return query_results
 
-		
+		elif query_type == 'flag':	#return flags in all files corresponding to flag type <flag> with db.retrieve('flag','<flag>')
+			db_search_query = (db_search_query,)
+			self.db_cursor.execute('SELECT * FROM flags_table WHERE flag LIKE ?', db_search_query)
+
+		elif query_type == 'file+flag':	#return flags in file <filename> corresponding to flag type <flag> with db.retrieve('file+flag','[<filename>,<flag>]') <---note the list this time.
+			db_search_query = (db_search_query[0],db_search_query[1])
+			self.db_cursor.execute('SELECT * FROM flags_table WHERE file_name LIKE ? AND flag LIKE ?', db_search_query)
+
+		else:
+			print 'Invalid search query type: ' + query_type
+			return []
+			
+		return self.db_cursor.fetchall()
 
