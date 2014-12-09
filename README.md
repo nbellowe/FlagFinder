@@ -34,6 +34,6 @@ Software that will allow programmers to organize their code within their code, w
 	`(cd docs && make clean html)`
 	
 #Development Dependencies:
-`pip install Sphinx
-pip install docutils
-pip install tox`
+`pip install Sphinx`
+`pip install docutils`
+`pip install tox`
