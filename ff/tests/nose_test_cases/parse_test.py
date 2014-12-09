@@ -14,10 +14,6 @@ class CheckInstallStuff(unittest.TestCase):
         return_code = subprocess.check_call(["ff","--help"])
         self.assertTrue(return_code ==0)
 
-    def testDispCommand(self):
-        return_code = subprocess.check_call(["ff","d"])
-        self.assertTrue(return_code ==0)
-
 
 
 # --Each Function to be tested in parse.py will be its own testing class below.~~ 

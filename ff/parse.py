@@ -10,7 +10,7 @@ from collections import namedtuple
 The DEFAULT_FLAGS array will contain default flags that FF will look for if the
 user does not supply his/her own flags.
 """
-DEFAULT_FLAGS = ['TODO', 'COMPLETED', 'BROKEN', 'IN-PROGRESS', 'NEEDS-APPROVAL', 'WORKS'] 
+DEFAULT_FLAGS = ['TODO', 'COMPLETED', 'BROKEN', 'IN-PROGRESS', 'NEEDS-APPROVAL'] 
 
 
 """
@@ -31,7 +31,7 @@ def check_comment_line(code_line):
 	:type code_line: str
 	:returns: bool
 	'''
-	
+	#WORKS
 	#strip() will remove any whitespace from the beginning and end of the string. Allows us to check first meaningful char of each line
 	code_line = code_line.strip() 
 
@@ -75,28 +75,7 @@ def check_for_default_flag(code_line):
 		else:
 			for flag in DEFAULT_FLAGS:
 				for line in code_line:
-					return code_line .find(flag) != -1 
-
- # Same as above method except this one will iterate through a user flag array, supplied from the user on the command line or specified 
- # by the user in a config file of sorts
-def check_for_user_flag(code_line): 
-	'''
-	Checks to see if a passed in line of code is a comment AND if it contains a flag defined by the user
-	:param code_line: a line of code from the users file 
-	:type code_line: str
-	'''
-	if check_comment_line(code_line) is False: #if line isn't a comment then there is no point for looking for flags within it
-		return False 
-	else:
-		if code_line  is not []: # if we haven't passed in an array of lines
-			for flag in USER_SUPPLIED_FLAGS: # for each flag in our array of default flags...
-				if code_line .find(flag) != -1: # if the find method doesn't return -1 (ie: the comment line DOES contain our flag)
-					return flag # return that flag so that we know which of the flags is contained inside the line after making the check
-			return False   #if we have iterated through all flags and none of them exist in the comment line, then there is no default flag in the comment
-		else:
-			for flag in USER_SUPPLIED_FLAGS:
-				for line in code_line:
-					return code_line .find(flag) != -1				
+					return code_line .find(flag) != -1 			
 
 def check_empty(code_line):
 	'''
@@ -128,7 +107,7 @@ def make_comment_line_tuple(line_of_code, linenumber, filename):
 	the named tuple that will be passed into the DB for storage
 
 	: param line_of_code: an integer that represents what line number that code of line is
-	
+
 	"""
 
 	
@@ -136,7 +115,6 @@ def make_comment_line_tuple(line_of_code, linenumber, filename):
 		this_tuple = FlagLine(filename, linenumber, line_of_code, check_for_default_flag(line_of_code))
 		#print thisTuple
 		return this_tuple 
-		# this will be the tuple return into the db
 	
 
 #if __name__ == '__main__':
