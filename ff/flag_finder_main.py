@@ -94,18 +94,24 @@ class Setup(Command):
 	def take_action(self, parsed_args):
 		user_project_directory_name = os.path.split(os.getcwd())[1]
 		user_project_directory_path = os.environ['PWD']
-		user_db_name = user_project_directory_name+"-ff.db"
+		user_db_name = user_project_directory_name
 
-		os.system("figlet -c -f mini 'Welcome To' ")
-		os.system("figlet -c 'Flag Finder' ")
+		#os.system("figlet -c -f mini 'Welcome To' ")
+		#os.system("figlet -c 'Flag Finder' ")
+		print "+-----------------------------+"
+		print "|Welcome To Flag Finder!"
+		print "+-----------------------------+"
 		print "______________________________________________________________________________________"
 		print "* Your configuration file is called .ffconfig"
-		print "* Edit .ffcongig for your custom flags"
+		print "* Edit .ffconfig for your custom flags"
 		print "* Your database file is called", user_db_name
 		print "* Your current project directory path is", user_project_directory_path
 		print"_______________________________________________________________________________________"
 
-		os.system("figlet -c 'Usage:' ")
+		#os.system("figlet -c 'Usage:' ")
+		print "+-------+"
+		print "|Usage:"
+		print "+-------+"
 
 		print "** STEP 1: Run ff start in the root of your project to setup database and config file (you just did this!)\n"
 		print "** STEP 2(optional):  Run ff add <flag1> <flag2> ... to add custom flags that you want searched. Otherwise, default flags will be found"

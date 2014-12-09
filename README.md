@@ -20,7 +20,20 @@ Software that will allow programmers to organize their code within their code, w
 	Parses file comments into database.
 	Searches this database to find comments
 	Displays it in friendly format
+
+##Necessary Libaries
 	
+	python-dev
+	libsqlite3-dev
+
+##Installing
+	cd ff
+	python setup.py install
+
+##How To Use
+	ff start
+	* follow instructions *
+
 ##To release
 	`cd ff && rm -rf dist build`
 	cd ff && python setup.py sdist upload`
@@ -30,9 +43,7 @@ Software that will allow programmers to organize their code within their code, w
 
 ##To install from source
 	`cd ff && python setup.py install`
-##Working with FF (once installed)
-	ff start
-	* follow instructions *
+
 
 ##To Clean:
 	`cd ff && rm -rf dist build *.egg-info
@@ -40,8 +51,3 @@ Software that will allow programmers to organize their code within their code, w
 
 ##Build docs
 	`(cd docs && make clean html)`
-	
-#Development Dependencies:
-`pip install Sphinx`
-`pip install docutils`
-`pip install tox
