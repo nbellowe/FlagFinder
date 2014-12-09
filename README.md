@@ -27,7 +27,7 @@ Software that will allow programmers to organize their code within their code, w
 	libsqlite3-dev
 
 ##Installing
-	cd ff
+	cd FlagFinder
 	python setup.py install
 
 ##How To Use
