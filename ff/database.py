@@ -9,9 +9,14 @@ FLAGTABLE_ENTRY_CATEGORIES ='(tag_id INTEGER,file_name TEXT,line_number INTEGER,
 
 
 class ff_db:
-
+	"""FlagFinder Database Class
+	"""
 	
 	def __init__(self, project_rootdir):
+		"""Initialize FlagFinder database object and create the flags SQLite database if it does not yet exist, else establish connection to pre-existing database.
+		:param project_rootdir: Top-level directory of project source tree.
+		:paramtype project_rootdir: str
+		"""
 		
 		self.FILE = 'file'
 		self.FLAG = 'flag'
@@ -28,11 +33,17 @@ class ff_db:
 		self.db_conn.commit()
 
 	def close(self):
+		"""Clean-up for FlagFinder database object. Close database connection.
+		"""
 
 		self.db_cursor.close()
 		self.db_conn.close()
 
 	def add_entries(self, db_entry_list):
+		"""Add flag entries to database.
+		:param db_entry_list: List of Flag_Line namedtuples, each a flag entry to add to the database.
+		:paramtype db_entry_list: list
+		"""
 		
 		def sanatize_input(db_entry, tag_id): #this prepends tag_id's onto entries and sanatizes entry elements that are strings to allow us to insert comments, flags, and filenames that have single and double quotes within them (SQLite whines unless they're properly formatted).
 			tag_tuple = namedtuple('tag_tuple', 'tag')
@@ -60,6 +71,12 @@ class ff_db:
 		self.db_conn.commit()
 	
 	def retrieve(self, query_type, db_search_query):
+		"""Retrieve entries from database.
+		:param query_type: Define search by file with self.FILE, search by flag with self.FLAG, or search by flag within file by self.FILE_AND_FLAG.
+		:paramtype query_type: str
+		:param db_search_query: File or flag or [file,flag] desired to be searched.
+		:paramtype db_search_query: str
+		"""
 
 		if query_type == self.FILE:	#return flags in file <filename> with db.retrieve(db.FILE,'<filename>')
 			db_search_query = (db_search_query,)
