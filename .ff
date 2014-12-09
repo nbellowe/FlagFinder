@@ -8,4 +8,3 @@ preferences :
   search_multiline_comments : True
   debug_mode                : True
   install_only              : True
-

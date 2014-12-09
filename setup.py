@@ -39,7 +39,7 @@ setup(
     scripts=[],
 
     provides=[],
-    install_requires=['cliff'],
+    install_requires=['cliff', 'pyfiglet','pysqlite'],
 
     namespace_packages=[],
     packages=find_packages(),
@@ -50,10 +50,10 @@ setup(
             'ff = ff.main:main'
         ],
         'ff': [
-        'd = ff.display_tag:DispTag',
         'parse = ff.flag_finder_main:Main',
-        'setup = ff.flag_finder_main:Setup',
+        'start = ff.flag_finder_main:Setup',
         'list = ff.listTags:Files',
+        'add = ff.userFlagSetup:UserFlag'
         ],
     },
 
