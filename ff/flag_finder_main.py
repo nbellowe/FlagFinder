@@ -42,10 +42,14 @@ class Main(Command):
 		
 		#This will be ran quickly with every iteration of parse to check if user
 		#has added any custom flags that they want looked for
+		try:
+			user_config = open(".ffconfig", 'r')
+			for line in user_config:
+				parse.DEFAULT_FLAGS.append(line.rstrip('\n'))
+		except IOError:
+			print ("You are not in the same directory as where you ran ff start!")
+			return 0
 		
-		user_config = open(".ffconfig", 'r')
-		for line in user_config:
-			parse.DEFAULT_FLAGS.append(line.rstrip('\n'))
 
 	   	# try opening file and reading all the lines and parsing and etc.
 		user_project_directory_path = os.environ['PWD']
