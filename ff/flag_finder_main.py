@@ -63,6 +63,9 @@ class Main(Command):
 						comments.append(comment_line)
 
 					    #add the entire list of tuples at once to the db
+				if comments == []:
+					print users_file.name," had no flags in it."
+					return 0
 				db_file.add_entries(comments)
 				print ("")
 				print ("File succesfully parsed! Call ff list <filename> to see results!\n")  
