@@ -6,7 +6,7 @@ VERSION = '0.02'
 from setuptools import setup, find_packages
 
 try:
-    long_description = open('../README.md', 'rt').read()
+    long_description = open('README.md', 'rt').read()
 except IOError:
     long_description = ''
 
@@ -39,7 +39,7 @@ setup(
     scripts=[],
 
     provides=[],
-    install_requires=['cliff','pysqlite'],
+    install_requires=['cliff', 'pyfiglet','pysqlite'],
 
     namespace_packages=[],
     packages=find_packages(),
@@ -50,11 +50,10 @@ setup(
             'ff = ff.main:main'
         ],
         'ff': [
-	'Error = ff.simple:Error',
-	'status = ff.status:main',
-	'parse = ff.parse:main',
-	'simple = ff.simple:Example',
-        'd = ff.dispTag:DispTag'
+        'parse = ff.flag_finder_main:Main',
+        'start = ff.flag_finder_main:Setup',
+        'list = ff.listTags:Files',
+        'add = ff.userFlagSetup:UserFlag'
         ],
     },
 
